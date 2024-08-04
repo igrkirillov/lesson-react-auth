@@ -14,9 +14,12 @@ function App() {
     const auth = getAuthFromStorage();
     const [token, setToken] = useState(auth.token);
     const [profile, setProfile] = useState(auth.profile);
+    const onLogin = (username: string, password: string) => {
+        return Promise.resolve();
+    }
     return (
         <AuthContext.Provider value={{token, setToken, profile, setProfile}}>
-            <Header></Header>
+            <Header onLogin={onLogin}></Header>
             <Content></Content>
         </AuthContext.Provider>
     )
@@ -32,7 +35,8 @@ type HeaderProps = {
     onLogin: (username: string, password: string) => Promise<void>
 }
 
-function Header(props) {
+function Header(props: HeaderProps) {
+    const {onLogin} = props;
     const auth = useContext<Auth>(AuthContext);
 
     return (
@@ -40,7 +44,7 @@ function Header(props) {
             <div className="logo">
                 <h1>Neto Social</h1>
             </div>
-            {!auth.token ? (<HeaderLoginForm></HeaderLoginForm>) : (<HeaderProfileWidget></HeaderProfileWidget>)}
+            {!auth.token ? (<HeaderLoginForm onLogin={onLogin}></HeaderLoginForm>) : (<HeaderProfileWidget></HeaderProfileWidget>)}
         </div>
     )
 }
