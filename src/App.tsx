@@ -169,7 +169,7 @@ function NewsWidget() {
                 .then(news => setState({...state, loading: false, news: news}))
                 .catch(e => alert(e.message));
         }
-    }, [])
+    }, [auth.token])
     return state.loading ? (<div>Идёт загрузка...</div>)
         : (
             <div className="news-container">
